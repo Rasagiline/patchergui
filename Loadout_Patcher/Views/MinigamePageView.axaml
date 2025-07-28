@@ -1,0 +1,134 @@
+﻿<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+			 xmlns:views="clr-namespace:Loadout_Patcher.Views"
+             mc:Ignorable="d"
+			 d:DesignHeight="1000"
+             d:DesignWidth="1800"
+             x:Class="Loadout_Patcher.Views.MinigamePageView"
+             x:DataType="viewModels:MinigamePageViewModel">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, *" Margin="20">
+			<TextBlock Margin="0, 20" FontSize="20" FontWeight="Bold">
+				Minigame
+			</TextBlock>
+			<TextBlock Margin="20, 80" FontSize="26" FontWeight="Bold" FontFamily="{StaticResource BungeeSpiceFont}">
+				WELCOME TO MINESWEEPER
+			</TextBlock>
+			<!-- This must include Board, Controls, InfoText, Field -->
+
+			<StackPanel Margin="20, 160" Orientation="Vertical" MaxHeight="400" MaxWidth="350" VerticalAlignment="Top" HorizontalAlignment="Left">
+				<TextBlock Margin="3,3,3,10">
+					<Run Text="Your best time, classic mode: "></Run>
+					<Run Foreground="#42A2FF" FontSize="18" Text="{Binding FastestMinigameTime}"></Run>
+				</TextBlock>
+				<Label>Flag set and remover mode</Label>
+				<ToggleSwitch IsChecked="{Binding FlagRemoverMode}" IsEnabled="True"></ToggleSwitch>
+				<Label>Direct mode</Label>
+				<ToggleSwitch IsChecked="{Binding DirectMode}" IsEnabled="True"></ToggleSwitch>
+			</StackPanel>
+
+			<StackPanel Margin="20, 160" Orientation="Vertical" MaxHeight="400" MaxWidth="300" VerticalAlignment="Top" HorizontalAlignment="Center">
+			<Label>Rows: </Label>
+			<NumericUpDown Minimum="5" Value="{Binding RowsAndColumns}" Maximum="75" />
+			<Label>Bombs: </Label>
+			<NumericUpDown Minimum="5" Value="{Binding AmountBombs}" Maximum="{Binding MaxBombs}" />
+			<StackPanel Orientation="Horizontal">
+				<Button Command="{Binding OnLoadBoardClicked}">Load Board</Button>
+				<Button Background="Red" FontWeight="Bold" Command="{Binding OnStartClicked}"
+						Content="{Binding MainButtonText}" />
+			</StackPanel>
+			<ToggleSwitch IsEnabled="{Binding !GameRunning}" OnContent="Solver On" OffContent="Solver Off"
+							IsChecked="{Binding SolverActive}" />
+			<StackPanel Orientation="Vertical" IsVisible="{Binding SolverActive}">
+				<ToggleSwitch OffContent="Manual" OnContent="Automatic" IsChecked="{Binding Automatic}"
+								Name="AutomaticSwitch" />
+				<Label>Delay: </Label>
+				<Slider Maximum="1000" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Name="Slider"
+						Value="{Binding Delay, Mode=TwoWay}" IsDirectionReversed="True"
+						IsEnabled="{Binding #AutomaticSwitch.IsChecked}" />
+				<NumericUpDown Maximum="1000" Minimum="1" Value="{Binding #Slider.Value, Mode=TwoWay}"
+								IsEnabled="{Binding #AutomaticSwitch.IsChecked}" />
+				<ToggleSwitch OffContent="Backward" OnContent="Forward" IsChecked="{Binding Forward}"
+								IsEnabled="{Binding #AutomaticSwitch.IsChecked}" />
+				<NumericUpDown IsReadOnly="{Binding #AutomaticSwitch.IsChecked}" Value="{Binding CurrentMove, Mode=TwoWay}"
+								Minimum="0" Maximum="{Binding AmountMoves}" />
+			</StackPanel>
+			<ProgressBar IsIndeterminate="True" IsVisible="{Binding SolverIsSolving}" />
+		</StackPanel>
+
+		<Viewbox Margin="20, 160" MaxWidth="300" MaxHeight="300" VerticalAlignment="Top" HorizontalAlignment="Right">
+			<StackPanel Orientation="Vertical">
+				<TextBlock Background="#293134" LineSpacing="2" TextAlignment="Center" FontSize="20" Width="300" Height="100"
+							Text="{Binding GameInfoText}" TextWrapping="Wrap"></TextBlock>
+				<Label Margin="2,2,2,2">Fields flagged: </Label>
+				<StackPanel Orientation="Horizontal" Width="150" Height="35">
+					<NumericUpDown ShowButtonSpinner="False" Value="{Binding GameFlagsSet}"
+									HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" />
+					<Label>/</Label>
+					<NumericUpDown ShowButtonSpinner="False" Value="{Binding AmountBombs}"
+									HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" />
+				</StackPanel>
+			</StackPanel>
+		</Viewbox>
+			
+		<ItemsControl Margin="0, 460, 0, 0" MaxHeight="1500" MaxWidth="1900" ItemsSource="{Binding Fields}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid Background="Black" Rows="{Binding CurrentRowsAndColumns}"
+									Columns="{Binding CurrentRowsAndColumns}" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<ContentControl>
+						<Panel Width="376" Height="76">
+							<Button Opacity="0" PointerPressed="FieldPressed" Command="{Binding OnFieldLeftClicked}" ZIndex="76"
+									Width="376" Height="76" />
+							<Panel Background="{Binding CoverColor}" ZIndex="1" IsVisible="{Binding IsCovered}" />
+							<Panel Background="{Binding Background}">
+								<!-- TODO: Bind the font size for tiny fields -->
+								<Label Content="{Binding Value}" FontSize="40" FontWeight="SemiBold"
+										Foreground="{Binding ValueColor}" HorizontalContentAlignment="Center"
+										VerticalContentAlignment="Center"
+										IsVisible="{Binding HasNumber}" />
+								<!-- TODO: Bind the bomb's width and height and change it according to current rows and columns -->
+								<Image Source="/Assets/bomb.png" IsVisible="{Binding HasBomb}" Width="{Binding BombSizeWidth}" Height="{Binding BombSizeHeight}"/>
+							</Panel>
+							<!-- TODO: Bind the flag's width and height and change it according to current rows and columns -->
+							<Image Source="/Assets/flag.png" IsVisible="{Binding IsFlagged}" Width="{Binding FlagSizeWidth}" Height="{Binding FlagSizeHeight}" ZIndex="5" />
+						</Panel>
+					</ContentControl>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+
+
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</Grid>
+	</ScrollViewer>
+</UserControl>

@@ -1,0 +1,137 @@
+﻿<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+             mc:Ignorable="d"
+			 d:DesignHeight="1000"
+             d:DesignWidth="1800"
+             x:Class="Loadout_Patcher.Views.OptionsPageView"
+             x:DataType="viewModels:OptionsPageViewModel">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, *" Margin="20">
+			<StackPanel Margin="20">
+			<TextBlock Grid.Row="0" Margin="0 20" FontSize="20" FontWeight="Bold">
+				Options
+			</TextBlock>
+				<Grid ColumnDefinitions="350,250,250" >
+					<StackPanel Grid.Row="0" Grid.Column="0">
+
+						<CheckBox Name="ResetPatcherCheckbox" IsChecked="{Binding ResetStaticFalse}" IsEnabled="{Binding ResetPatcherFixed}">Reset the patcher</CheckBox>
+						<!-- A three state may be useful to prevent accidential changes -->
+						<CheckBox Name="StartSkipCheckbox" IsChecked="{Binding StartSkipSaveFileData}" IsEnabled="{Binding StartSkipFixed}">Skip start page</CheckBox>
+						<CheckBox Name="PrimaryApiCheckbox" IsChecked="{Binding ApiStaticFalse}" IsEnabled="{Binding PrimaryApiFixed}" Content="{Binding WebApiCheckboxText}"></CheckBox>
+						<CheckBox Name="InstantPatchingCheckbox" IsChecked="{Binding InstantPatchingSaveFileData}" IsEnabled="True">Instant patching</CheckBox>
+					</StackPanel>
+					<StackPanel Grid.Row="0" Grid.Column="1">
+						<CheckBox Name="SuccessSoundsCheckbox" IsChecked="{Binding SuccessSoundsSaveFileData}" IsEnabled="True">Success sounds</CheckBox>
+						<CheckBox Name="MinigameSoundsCheckbox" IsChecked="{Binding MinigameSoundsSaveFileData}" IsEnabled="True">Minigame sounds</CheckBox>
+						<CheckBox Name="OtherSoundsCheckbox" IsChecked="{Binding OtherSoundsSaveFileData}" IsEnabled="True">Other sounds</CheckBox>
+						<CheckBox Name="MenuMusicCheckbox" IsChecked="{Binding MenuMusicSaveFileData}" IsEnabled="True">Menu music</CheckBox>
+						<CheckBox Name="MuteAllSoundsCheckbox" IsChecked="{Binding MuteAllSoundsFalse}" IsEnabled="True">All sounds muted</CheckBox>
+					</StackPanel>
+					<StackPanel Grid.Row="0" Grid.Column="2">
+						<CheckBox Name="StartLoadoutCheckbox" IsChecked="{Binding StartLoadoutSaveFileData}" IsEnabled="{Binding StartLoadoutEnabled}">Start Loadout</CheckBox>
+						<CheckBox Name="StartLoadoutViaSSECheckbox" IsChecked="{Binding StartLoadoutViaSSESaveFileData}" IsEnabled="{Binding StartLoadoutViaSSEEnabled}">Prefer SSELauncher start</CheckBox>
+						<CheckBox Name="CreateSSEShortcutCheckbox" IsChecked="{Binding CreateSSEShortcutSaveFileData}" IsEnabled="{Binding CreateSSEShortcutEnabled}">Create SSELauncher shortcut</CheckBox>
+					</StackPanel>
+				</Grid>
+				<Grid Grid.Row="0" Margin="20, 10" Height="40" ColumnDefinitions="Auto">
+
+				</Grid>	
+				<!-- Bottom bar -->
+				<!--The second Auto in ColumnDefinitions places Popup Button next to Button here-->
+				<Grid Grid.Row="1" Margin="0, 10" Height="40" ColumnDefinitions="Auto, Auto, Auto">
+
+					<Button Grid.Column="0" Name="ResetButton" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="4" FontSize="16" Command="{Binding ButtonResetPressedCommand}" Margin="0, 0, 8, 0">Reset</Button>
+			
+					<Button Grid.Column="1" Name="ApplyButton" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="4" FontSize="16" Command="{Binding ButtonApplyPressedCommand}" Margin="0, 0, 8, 0">Apply</Button>
+
+					<!-- Button that appears and disappears as test of ChannelConfigurationIsOpen -->
+					<Button Grid.Column="2" Name="ConfirmButton" IsVisible="{Binding ApplyButtonPressed}" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="4" FontSize="16" Margin="0, 0, 8, 0" Command="{Binding ConfirmExecuteCommand}">Confirm</Button>
+
+				</Grid>
+				<Grid Grid.Row="2" Margin="20, 10" Height="40" ColumnDefinitions="Auto">
+				</Grid>
+				
+				<TextBlock Grid.Row="0" Name="ApplyChanges" IsVisible="{Binding ApplyButtonPressed}" Text="{Binding ApplyChangesName}" Margin="0 20" FontSize="20" FontWeight="Bold"></TextBlock>
+
+				<Panel Margin="0 50">
+					<TextBlock Name="ApiChanges" IsVisible="{Binding ApplyButtonPressedApi}" Text="{Binding ApiChangesName}" Margin="0 20" FontSize="16" FontWeight="Bold" xml:space="preserve" Foreground="DeepSkyBlue"></TextBlock>
+					<!-- Your current API is x. Select from other APIs or type in your new API. -->
+				</Panel>
+
+				<TextBlock>
+					<Run FontWeight="Bold">Selected</Run>: <Run Text="{Binding SelectedItem}"/>
+				</TextBlock>
+
+				<!-- insert here -->
+				<DockPanel LastChildFill="True">
+					<DockPanel DockPanel.Dock="Bottom">
+						<Button DockPanel.Dock="Right" Command="{Binding PrimaryWebApiCommand}" Margin="2,2,2,2" IsEnabled="{Binding ApplyButtonPressedApi}">Select as primary web API</Button>
+						<Button DockPanel.Dock="Left" Command="{Binding AddNewWebApiCommand}" Margin="2,2,2,2" IsEnabled="{Binding ApplyButtonPressedApi}">Add new web API</Button>
+						<Button DockPanel.Dock="Right" Command="{Binding RemoveWebApiCommand}" Margin="2,2,2,2" IsEnabled="{Binding ApplyButtonPressedApi}">Remove last web API</Button>
+						<TextBox Name="NewApi" DockPanel.Dock="Right" Height="40" Text="{Binding NewApiTextInput}" Margin="2,2,2,2" IsEnabled="{Binding ApplyButtonPressedApi}"></TextBox>
+					</DockPanel>
+					<Grid ColumnDefinitions="400,*" Grid.RowDefinitions="Auto,Auto">
+						<ListBox ItemsSource="{Binding WebApiEndpoints}" HorizontalAlignment="Stretch" SelectionMode="Single,Toggle">
+
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<!-- It's just Binding as figured out, nothing behind it -->
+									<!-- This is very important, so both grid columns will get the same height -->
+									<TextBlock Name="WebApi" Height="36" Text="{Binding}" IsEnabled="{Binding ApplyButtonPressedApi}" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18"></TextBlock>
+
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+
+						</ListBox>
+						<ListBox Name="ListBoxWebApiCheckBox" SelectedItem="{Binding SelectedItem}" Grid.Column="1" ItemsSource="{Binding WebApiEndpoints}" SelectionMode="Single,Toggle" HorizontalAlignment="Stretch"> <!-- HorizontalAlignment="Stretch" -->
+							<ListBox.ItemTemplate>
+								<DataTemplate DataType="x:String">
+									<Button Name="WebApiButton" IsEnabled="{Binding ApplyButtonPressedApi}" Height="36" CommandParameter="{Binding}" Command="{Binding WebApiButtonPressedCommand}"  BorderThickness="2" HorizontalAlignment="Left">
+										<!-- CommandParameter="{Binding}" -->
+										Select
+										<Button.Styles>
+											<Style>
+												<Style.Resources>
+													<!-- Guessing keys also works -->
+													<SolidColorBrush x:Key="ButtonBackgroundDisabled">#0A2144</SolidColorBrush>
+													<SolidColorBrush x:Key="ButtonBorderBrushDisabled">#1F3960</SolidColorBrush>
+													<SolidColorBrush x:Key="TextDisabled">White</SolidColorBrush>
+													<SolidColorBrush x:Key="ForegroundBrushDisabled">#0A2144</SolidColorBrush>
+												</Style.Resources>
+												
+											</Style>
+											
+										</Button.Styles>
+									</Button>									
+									
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+
+					</Grid>
+
+				</DockPanel>
+
+			</StackPanel>
+
+		</Grid>
+
+	</ScrollViewer>
+</UserControl>
+
+

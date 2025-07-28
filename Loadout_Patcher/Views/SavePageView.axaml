@@ -1,0 +1,130 @@
+﻿<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+             mc:Ignorable="d" 
+			 d:DesignHeight="1000"
+             d:DesignWidth="1800"
+             x:Class="Loadout_Patcher.Views.SavePageView"
+             x:DataType="viewModels:SavePageViewModel">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, *" Margin="20">
+			<TextBlock Grid.Row="0" Margin="0 20" FontSize="20" FontWeight="Bold">
+				Review and Edit Save
+			</TextBlock>
+			<ScrollViewer>
+					<StackPanel Margin="60">
+						<Grid ColumnDefinitions="350,130,280,122,250">
+							<StackPanel Grid.Row="0" Grid.Column="0">
+							<ComboBox Name="EditSaveComboBox"
+								  Margin="0,10" SelectedIndex="{Binding FilterComboBoxIndex}" MaxDropDownHeight="600">
+								<ComboBoxItem>Choose what to edit</ComboBoxItem>
+								<ComboBoxItem Content="GUI Title"></ComboBoxItem>
+								<ComboBoxItem Content="IP Address"></ComboBoxItem>
+								<ComboBoxItem Content="Username"></ComboBoxItem>
+								<ComboBoxItem Content="Primary Custom Map"></ComboBoxItem>
+								<ComboBoxItem Content="Blocked song"></ComboBoxItem>
+							</ComboBox>
+							</StackPanel>
+							<StackPanel Grid.Row="0" Grid.Column="1">
+								<TextBlock Margin="0,15,10,0" FontWeight="Bold">Insert your change:</TextBlock>							
+							</StackPanel>
+							<StackPanel Grid.Row="0" Grid.Column="2">
+								<TextBox Margin="10,10,10,0" Text="{Binding NewSaveData}"></TextBox>
+							</StackPanel>
+							<StackPanel Grid.Row="0" Grid.Column="3">
+								<Button Margin="5,10" Name="EditSaveButton" Command="{Binding LockInCommand}">Make change</Button>
+							</StackPanel>
+							<StackPanel Grid.Row="0" Grid.Column="4">
+								<Button Margin="5,10" Name="PatchCustomMapButton" Command="{Binding PatchCustomMapCommand}" IsVisible="{Binding CustomMapExists}">
+									<TextBlock Name="MapPatchTextBlock" Text="{Binding MapPatchText}"></TextBlock>
+								</Button>
+							</StackPanel>
+						</Grid>
+						<Separator Margin="0,20,0,0"></Separator>
+						<Grid ColumnDefinitions="250,250,250" RowDefinitions="200,200,200">
+						<StackPanel Grid.Row="0" Grid.Column="0">
+							<TextBlock Margin="2,20,2,2" HorizontalAlignment="Center">GUI Title</TextBlock>
+							<Separator Margin="20,10,20,20"></Separator>
+							<TextBlock Margin="20,0,0,0" Text="{Binding GuiTitleContent}" IsEnabled="False"></TextBlock>
+						</StackPanel>
+						<StackPanel Grid.Row="0" Grid.Column="1">
+							<TextBlock Margin="2,20,2,2" HorizontalAlignment="Center">IP Address (doesn't work yet)</TextBlock>
+							<Separator Margin="20,10,20,20"></Separator>
+							<TextBlock Margin="20,0,0,0" Text="{Binding IpAddressContent}" IsEnabled="False"></TextBlock>
+						</StackPanel>
+						<StackPanel Grid.Row="0" Grid.Column="2">
+							<TextBlock Margin="2,20,2,2" HorizontalAlignment="Center">Username (doesn't work yet)</TextBlock>
+							<Separator Margin="20,10,20,20"></Separator>
+							<TextBlock Margin="20,0,0,0" Text="{Binding UsernameContent}" IsEnabled="False"></TextBlock>
+						</StackPanel>
+						<StackPanel Grid.Row="1" Grid.Column="0">
+							<TextBlock Margin="2,20,2,2" HorizontalAlignment="Center">Primary favorite map</TextBlock>
+							<TextBlock Margin="2,5,2,2" HorizontalAlignment="Center">Example: fissure_ctf</TextBlock>
+							<Separator Margin="20,10,20,20"></Separator>
+							<TextBlock Margin="20,0,0,0" Text="{Binding FavoriteMapContent}" IsEnabled="False"></TextBlock>
+						</StackPanel>
+						<StackPanel Grid.Row="1" Grid.Column="1">
+							<TextBlock Margin="2,20,2,2" HorizontalAlignment="Center">Primary custom map</TextBlock>
+							<TextBlock Margin="2,5,2,2" HorizontalAlignment="Center">Example: fissure_geo</TextBlock>
+							<Separator Margin="20,10,20,20"></Separator>
+							<TextBlock Margin="20,0,0,0" Text="{Binding CustomMapContent}" IsEnabled="False"></TextBlock>
+						</StackPanel>
+						<StackPanel Grid.Row="1" Grid.Column="2">
+							<TextBlock Margin="2,20,2,2" HorizontalAlignment="Center">Blocked patcher menu music song</TextBlock>
+							<TextBlock Margin="2,5,2,2" HorizontalAlignment="Center">Example: 0xf3614c6a.ogg</TextBlock>
+							<Separator Margin="20,10,20,20"></Separator>
+							<TextBlock Margin="20,0,0,0" Text="{Binding BlockedSongContent}" IsEnabled="False"></TextBlock>
+						</StackPanel>
+						</Grid>
+						<Separator Margin="0,40,0,0"></Separator>
+						<TextBlock Margin="2,10,2,2" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold">Some changes require a restart to apply</TextBlock>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</ScrollViewer>
+</UserControl>
+
+<!--
+ DisplayMemberBinding="{Binding ValueString}" ItemsSource="{Binding Save}"
+								  SelectedValueBinding="{BindinueString}" SelectedValue="{Binding PropertyString}"
+
+x:Key="PropertiesArray" x:Shared="False"
+
+xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
+<UserControl.Resources>
+	<Style TargetType="{x:Type ComboBox}" x:Key="PropertiesArray">
+		<Setter Property="ItemsSource">
+			<Setter.Value>
+				<c:ArrayList>
+					<ComboBoxItem>GUI Title</ComboBoxItem>
+					<ComboBoxItem>IP Address</ComboBoxItem>
+				</c:ArrayList>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</UserControl.Resources>
+
+						<ComboBox Name="EditSaveComboBox" ItemsSource="{Binding Save}" DisplayMemberBinding="{Binding SaveProperties}" 
+								  SelectedValueBinding="{Binding SaveProperties}" SelectedValue="{Binding PropertyString}"
+								  Margin="20" SelectedIndex="0" MaxDropDownHeight="600">
+							g Val
+							<ComboBoxItem>Choose what to edit</ComboBoxItem>
+							<ComboBoxItem Content="GUI Title">?</ComboBoxItem>
+							<ComboBoxItem Content="IP Address">?</ComboBoxItem>
+							
+						</ComboBox>
+-->

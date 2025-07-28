@@ -1,0 +1,28 @@
+<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Loadout_Patcher.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1800" d:DesignHeight="1000"
+             x:Class="Loadout_Patcher.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+</UserControl>
+<!-- https://docs.avaloniaui.net/docs/basics/user-interface/building-layouts/alignment-margins-and-padding -->

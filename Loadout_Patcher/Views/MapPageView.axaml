@@ -1,0 +1,1281 @@
+﻿<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+			 xmlns:ext="clr-namespace:Loadout_Patcher;assembly=Loadout_Patcher"
+             mc:Ignorable="d"
+			 d:DesignHeight="1000"
+             d:DesignWidth="1800"
+             x:Class="Loadout_Patcher.Views.MapPageView"
+             x:DataType="viewModels:MapPageViewModel">
+	<Design.DataContext>
+		<viewModels:MapPageViewModel/>
+	</Design.DataContext>
+	<UserControl.Resources>
+		<ext:BitmapAssetValueConverter x:Key="VariableImage"/>
+	</UserControl.Resources>
+	<ScrollViewer VerticalScrollBarVisibility="Visible" IsDeferredScrollingEnabled="False">
+		<DockPanel Margin="20">
+			<StackPanel Margin="0">
+				<TextBlock Grid.Row="0" Margin="0 20 0 0" FontSize="20" FontWeight="Bold">
+					Maps
+				</TextBlock>
+				<Grid>
+					<TextBlock Margin="0 0 0 0" FontSize="16" FontWeight="Bold" xml:space="preserve">
+					Patching will only be applied if you click on a different tab, 
+					then wait for 4 seconds and finally click back to the tab 
+					Weaponcrafting - gun test to avoid crashing the game.
+					</TextBlock>
+					<TextBlock Margin="500 0 0 0" FontSize="16" FontWeight="Bold" xml:space="preserve">
+					In the tables, rightmost column, pick a starting map.
+					If you have a starting map and open the patcher after 
+					Loadout, the patcher will patch everything immediately!
+					</TextBlock>
+				</Grid>
+				
+				<DockPanel Margin="4">
+					<TabControl
+						Margin="36 0"
+						TabStripPlacement="Top">
+						<TabItem Header="All Maps">
+							<StackPanel Orientation="Vertical" Spacing="8">
+								<TextBlock Name="NumberOfMaps1" Text="{Binding NumberOfMapsText}"></TextBlock>
+
+								<DataGrid Margin="0,0,20,0" 
+									Name="MapPatchingTable"
+								    ItemsSource="{Binding Maps}"
+									IsReadOnly="True"
+									CanUserReorderColumns="True"
+									CanUserResizeColumns="True"
+									CanUserSortColumns="True"
+									GridLinesVisibility="All"
+									HorizontalScrollBarVisibility="Visible"
+									BorderThickness="1"
+								    BorderBrush="Gray"
+									Height="700"
+									ScrollViewer.IsDeferredScrollingEnabled="True"
+									ScrollViewer.AllowAutoHide="False"
+									IsTabStop="True"
+									Cursor="UpArrow"
+									ClipboardCopyMode="ExcludeHeader">
+									<DataGrid.Columns>
+										<DataGridTemplateColumn Width="150" Header="              Action">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #111838 -->
+													<Button
+														Name="MapPatchButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#111828"
+														Command="{Binding #MapPatchingTable.DataContext.PatchMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapPatchTextBlock" Text="{Binding MapPatchText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+										<DataGridTextColumn Header="Game mode" Binding="{Binding GameModeTranslated}"/>
+										<DataGridTextColumn Header="Map string" Binding="{Binding FullMapName}"/>
+										<DataGridTextColumn Header="Day / night" Binding="{Binding DayNight}"/>
+										<DataGridTemplateColumn Width="110" Header="       Picture">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<Image Name="MapPicture" Margin="0,0,0,0" HorizontalAlignment="Center" Width="60" Height="30"
+														   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+														<Image.GestureRecognizers>
+															<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																					  CanVerticallyScroll="True"/>
+														</Image.GestureRecognizers>
+													</Image>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Game mode description" Binding="{Binding GameModeDefinition}"/>
+										<DataGridTextColumn Header="Map description" Binding="{Binding MapDescription}"/>
+										<DataGridTextColumn Header="Game mode from string" Binding="{Binding GameMode}"/>
+										<DataGridTextColumn Header="Map string - no interactions" Binding="{Binding FullMapNameAlt}"/>
+										<DataGridTemplateColumn Width="150" Header="        Favorite maps">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FFD700 -->
+													<Button
+														Name="FavoriteMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#FFD100"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="FavoriteMapsTextBlock" Text="{Binding FavoriteMapsText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map blacklist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FF840F -->
+													<Button
+														Name="MapBlacklistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#FF820F"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapBlacklistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapBlacklistTextBlock" Text="{Binding MapBlacklistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map whitelist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #DA444A -->
+													<Button
+														Name="MapWhitelistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#DA4448"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapWhitelistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapWhitelistTextBlock" Text="{Binding MapWhitelistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="         Map Queue">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #A2786F -->
+													<Button
+														Name="MapQueueButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#A2786C"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapQueueCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapQueueTextBlock" Text="{Binding MapQueueText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Starting Map">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #D2CF6F -->
+													<Button
+														Name="StartingMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#D2CF6D"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveStartingMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="StartingMapTextBlock" Text="{Binding StartingMapText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<!-- How to select Shooting_Gallery instead of shooting_gallery -->
+										<!-- ID is supposed to be intern -->
+										<!-- Now to select the map via double click! -->
+									</DataGrid.Columns>
+								</DataGrid>
+
+								<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+								<Separator IsVisible="True"></Separator>
+								
+							</StackPanel>
+						</TabItem>
+
+						<TabItem Header="All Maps Big Pictures">
+							<StackPanel Orientation="Vertical" Spacing="8">
+								<TextBlock Name="NumberOfMaps2" Text="{Binding NumberOfMapsText}"></TextBlock>
+
+								<DataGrid Margin="0,0,20,0"
+									Name="MapPatchingTable2"
+									ItemsSource="{Binding Maps}"
+									IsReadOnly="True"
+									CanUserReorderColumns="True"
+									CanUserResizeColumns="True"
+									CanUserSortColumns="True"
+									GridLinesVisibility="All"
+									HorizontalScrollBarVisibility="Visible"
+									BorderThickness="1"
+									BorderBrush="Gray"
+									Height="700"
+									ScrollViewer.IsDeferredScrollingEnabled="True"
+									ScrollViewer.AllowAutoHide="False"
+									IsTabStop="True"
+									Cursor="UpArrow"
+									ClipboardCopyMode="ExcludeHeader">
+									<DataGrid.Columns>
+										<DataGridTemplateColumn Width="150" Header="              Action">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #111838 -->
+													<Button
+														Name="MapPatchButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#111828"
+														Command="{Binding #MapPatchingTable.DataContext.PatchMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapPatchTextBlock" Text="{Binding MapPatchText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+										<DataGridTextColumn Header="Game mode" Binding="{Binding GameModeTranslated}"/>
+										<DataGridTextColumn Header="Map string" Binding="{Binding FullMapName}"/>
+										<DataGridTextColumn Header="Day / night" Binding="{Binding DayNight}"/>
+										<DataGridTemplateColumn Width="512" Header="                                                                    Picture">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<Image Name="MapPicture" Margin="0,0,0,0" HorizontalAlignment="Center" Width="512" Height="256"
+														   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+														<Image.GestureRecognizers>
+															<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																					  CanVerticallyScroll="True"/>
+														</Image.GestureRecognizers>
+													</Image>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Favorite maps">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FFD700 -->
+													<Button
+														Name="FavoriteMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#FFD100"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="FavoriteMapsTextBlock" Text="{Binding FavoriteMapsText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map blacklist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FF840F -->
+													<Button
+														Name="MapBlacklistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#FF820F"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapBlacklistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapBlacklistTextBlock" Text="{Binding MapBlacklistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map whitelist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #DA444A -->
+													<Button
+														Name="MapWhitelistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#DA4448"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapWhitelistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapWhitelistTextBlock" Text="{Binding MapWhitelistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="         Map Queue">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #A2786F -->
+													<Button
+														Name="MapQueueButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#A2786C"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapQueueCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapQueueTextBlock" Text="{Binding MapQueueText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Starting Map">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #D2CF6F -->
+													<Button
+														Name="StartingMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#D2CF6D"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveStartingMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="StartingMapTextBlock" Text="{Binding StartingMapText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Game mode description" Binding="{Binding GameModeDefinition}"/>
+										<DataGridTextColumn Header="Map description" Binding="{Binding MapDescription}"/>
+										<DataGridTextColumn Header="Game mode from string" Binding="{Binding GameMode}"/>
+										<DataGridTextColumn Header="Map string - no interactions" Binding="{Binding FullMapNameAlt}"/>
+										<!-- How to select Shooting_Gallery instead of shooting_gallery -->
+										<!-- ID is supposed to be intern -->
+										<!-- Now to select the map via double click! -->
+									</DataGrid.Columns>
+								</DataGrid>
+
+								<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+								<Separator IsVisible="False"></Separator>
+								
+							</StackPanel>
+						</TabItem>
+						
+						<TabItem Header="Versus Bots">
+							<StackPanel Orientation="Vertical" Spacing="8">
+								<!-- This can become a hardcoded list of PvE maps since there isn't much choice -->
+								<!-- Added 1 map singular !-->
+								<TextBlock Name="NumberOfVersusBotsMaps1" Text="{Binding NumberOfVersusBotsMapsText}"></TextBlock>
+
+								<DataGrid Margin="0,0,20,0"
+									Name="MapPatchingTable3"
+									ItemsSource="{Binding BotMaps}"
+									IsReadOnly="True"
+									CanUserReorderColumns="True"
+									CanUserResizeColumns="True"
+									CanUserSortColumns="True"
+									GridLinesVisibility="All"
+									HorizontalScrollBarVisibility="Visible"
+									BorderThickness="1"
+									BorderBrush="Gray"
+									Height="700"
+									ScrollViewer.IsDeferredScrollingEnabled="True"
+									ScrollViewer.AllowAutoHide="False"
+									IsTabStop="True"
+									Cursor="UpArrow"
+									ClipboardCopyMode="ExcludeHeader">
+									<DataGrid.Columns>
+										<DataGridTemplateColumn Width="150" Header="              Action">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #111838 -->
+													<Button
+														Name="MapPatchButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#111828"
+														Command="{Binding #MapPatchingTable.DataContext.PatchMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapPatchTextBlock" Text="{Binding MapPatchText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+										<DataGridTextColumn Header="Game mode" Binding="{Binding GameModeTranslated}"/>
+										<DataGridTextColumn Header="Map string" Binding="{Binding FullMapName}"/>
+										<DataGridTextColumn Header="Day / night" Binding="{Binding DayNight}"/>
+										<DataGridTemplateColumn Width="110" Header="       Picture">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<Image Name="MapPicture" Margin="0,0,0,0" HorizontalAlignment="Center" Width="60" Height="30"
+														   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+														<Image.GestureRecognizers>
+															<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																					  CanVerticallyScroll="True"/>
+														</Image.GestureRecognizers>
+													</Image>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Game mode description" Binding="{Binding GameModeDefinition}"/>
+										<DataGridTextColumn Header="Map description" Binding="{Binding MapDescription}"/>
+										<DataGridTextColumn Header="Game mode from string" Binding="{Binding GameMode}"/>
+										<DataGridTextColumn Header="Map string - no interactions" Binding="{Binding FullMapNameAlt}"/>
+										<DataGridTemplateColumn Width="150" Header="        Favorite maps">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FFD700 -->
+													<Button
+														Name="FavoriteMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#FFD100"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="FavoriteMapsTextBlock" Text="{Binding FavoriteMapsText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map blacklist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FF840F -->
+													<Button
+														Name="MapBlacklistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#FF820F"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapBlacklistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapBlacklistTextBlock" Text="{Binding MapBlacklistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map whitelist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #DA444A -->
+													<Button
+														Name="MapWhitelistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#DA4448"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapWhitelistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapWhitelistTextBlock" Text="{Binding MapWhitelistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="         Map Queue">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #A2786F -->
+													<Button
+														Name="MapQueueButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#A2786C"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapQueueCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapQueueTextBlock" Text="{Binding MapQueueText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Starting Map">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #D2CF6F -->
+													<Button
+														Name="StartingMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														Background="#D2CF6D"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveStartingMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="StartingMapTextBlock" Text="{Binding StartingMapText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<!-- How to select Shooting_Gallery instead of shooting_gallery -->
+										<!-- ID is supposed to be intern -->
+										<!-- Now to select the map via double click! -->
+									</DataGrid.Columns>
+								</DataGrid>
+
+								<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+								<Separator IsVisible="False"></Separator>
+
+							</StackPanel>
+						</TabItem>
+
+						<TabItem Header="Versus Bots Big Pictures">
+							<StackPanel Orientation="Vertical" Spacing="8">
+								<!-- This can become a hardcoded list of PvE maps since there isn't much choice -->
+								<!-- Added 1 map singular !-->
+								<TextBlock Name="NumberOfVersusBotsMaps2" Text="{Binding NumberOfVersusBotsMapsText}"></TextBlock>
+
+								<DataGrid Margin="0,0,20,0"
+									Name="MapPatchingTable4"
+									ItemsSource="{Binding BotMaps}"
+									IsReadOnly="True"
+									CanUserReorderColumns="True"
+									CanUserResizeColumns="True"
+									CanUserSortColumns="True"
+									GridLinesVisibility="All"
+									HorizontalScrollBarVisibility="Visible"
+									BorderThickness="1"
+									BorderBrush="Gray"
+									Height="700"
+									ScrollViewer.IsDeferredScrollingEnabled="True"
+									ScrollViewer.AllowAutoHide="False"
+									IsTabStop="True"
+									Cursor="UpArrow"
+									ClipboardCopyMode="ExcludeHeader">
+									<DataGrid.Columns>
+										<DataGridTemplateColumn Width="150" Header="              Action">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #111838 -->
+													<Button
+														Name="MapPatchButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#111828"
+														Command="{Binding #MapPatchingTable.DataContext.PatchMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapPatchTextBlock" Text="{Binding MapPatchText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+										<DataGridTextColumn Header="Game mode" Binding="{Binding GameModeTranslated}"/>
+										<DataGridTextColumn Header="Map string" Binding="{Binding FullMapName}"/>
+										<DataGridTextColumn Header="Day / night" Binding="{Binding DayNight}"/>
+										<DataGridTemplateColumn Width="512" Header="                                                                    Picture">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<Image Name="MapPicture" Margin="0,0,0,0" HorizontalAlignment="Center" Width="512" Height="256"
+														   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+														<Image.GestureRecognizers>
+															<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																					  CanVerticallyScroll="True"/>
+														</Image.GestureRecognizers>
+													</Image>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Favorite maps">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FFD700 -->
+													<Button
+														Name="FavoriteMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#FFD100"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="FavoriteMapsTextBlock" Text="{Binding FavoriteMapsText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map blacklist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FF840F -->
+													<Button
+														Name="MapBlacklistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#FF820F"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapBlacklistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapBlacklistTextBlock" Text="{Binding MapBlacklistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Map whitelist">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #DA444A -->
+													<Button
+														Name="MapWhitelistButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#DA4448"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapWhitelistCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapWhitelistTextBlock" Text="{Binding MapWhitelistText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="         Map Queue">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #A2786F -->
+													<Button
+														Name="MapQueueButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#A2786C"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapQueueCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapQueueTextBlock" Text="{Binding MapQueueText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Starting Map">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #D2CF6F -->
+													<Button
+														Name="StartingMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#D2CF6D"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveStartingMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="StartingMapTextBlock" Text="{Binding StartingMapText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Game mode description" Binding="{Binding GameModeDefinition}"/>
+										<DataGridTextColumn Header="Map description" Binding="{Binding MapDescription}"/>
+										<DataGridTextColumn Header="Game mode from string" Binding="{Binding GameMode}"/>
+										<DataGridTextColumn Header="Map string - no interactions" Binding="{Binding FullMapNameAlt}"/>
+										<!-- How to select Shooting_Gallery instead of shooting_gallery -->
+										<!-- ID is supposed to be intern -->
+										<!-- Now to select the map via double click! -->
+									</DataGrid.Columns>
+								</DataGrid>
+								
+
+								<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+								<Separator IsVisible="False"></Separator>
+
+							</StackPanel>
+						</TabItem>
+
+
+
+
+
+
+
+
+
+						<TabItem Header="Map Queue">
+							<StackPanel Orientation="Vertical" Spacing="8">
+								<TextBlock>Map queue display</TextBlock>
+
+								<!-- fillEmptyMapQueueWithFavoriteMaps;-->
+								<!-- loopMapQueue;-->
+								<!-- loopMapQueue: The map that was played becomes the last map of the list -->
+
+								<!-- Additional checkboxes go to the right -->
+								<CheckBox Name="CheckboxFillQueue" Command="{Binding FillQueueCommand}" IsChecked="{Binding FillQueueCheck}" IsEnabled="True">Fill empty queue with favorite maps</CheckBox>
+								<CheckBox Name="CheckboxLoopQueue" Command="{Binding LoopQueueCommand}" IsChecked="{Binding LoopQueueCheck}" IsEnabled="True">Loop map queue</CheckBox>
+
+								<TextBlock Name="NumberOfMapQueueMaps" Text="{Binding NumberOfMapQueueMapsText}"></TextBlock>
+								<!-- <TextBlock>Your map queue currently has x entries</TextBlock> -->
+								<Separator IsVisible="True"></Separator>
+
+								<!-- CanUserSortColumns must be set to true -->
+								<DataGrid Margin="0,0,20,0"
+									Name="MapPatchingTable5"
+									ItemsSource="{Binding MapQueueMaps}"
+									IsReadOnly="True"
+									CanUserReorderColumns="True"
+									CanUserResizeColumns="True"
+									CanUserSortColumns="True"
+									GridLinesVisibility="All"
+									HorizontalScrollBarVisibility="Visible"
+									BorderThickness="1"
+									BorderBrush="Gray"
+									Height="580"
+									ScrollViewer.IsDeferredScrollingEnabled="True"
+									ScrollViewer.AllowAutoHide="False"
+									IsTabStop="True"
+									Cursor="UpArrow"
+									ClipboardCopyMode="ExcludeHeader"
+									TemplateApplied="OnDataGridTemplateApplied">
+									<DataGrid.Columns>
+										<DataGridTemplateColumn Width="150" Header="              Action">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #111838 -->
+													<Button
+														Name="MapPatchButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#111828"
+														Command="{Binding #MapPatchingTable.DataContext.PatchMapCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="White"
+														Focusable="True"
+														IsVisible="True"
+														ResourcesChanged="Button_ResourcesChanged">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapPatchTextBlock" Text="{Binding MapPatchText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+										<DataGridTextColumn Header="Game mode" Binding="{Binding GameModeTranslated}"/>
+										<DataGridTemplateColumn Width="512" Header="                                                                    Picture">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<Image Name="MapPicture" Margin="0,0,0,0" HorizontalAlignment="Center" Width="512" Height="256"
+														   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+														<Image.GestureRecognizers>
+															<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																					  CanVerticallyScroll="True"/>
+														</Image.GestureRecognizers>
+													</Image>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="        Favorite maps">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #FFD700 -->
+													<Button
+														Name="FavoriteMapButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#FFD100"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="FavoriteMapsTextBlock" Text="{Binding FavoriteMapsText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTemplateColumn Width="150" Header="         Map Queue">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<!-- Or #A2786F -->
+													<Button
+														Name="MapQueueButton"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														VerticalAlignment="Stretch"
+														Background="#A2786C"
+														Command="{Binding #MapPatchingTable.DataContext.AddOrRemoveMapQueueCommand}"
+														CommandParameter="{Binding FullMapNameAlt}"
+														Content="View"
+														Foreground="Black"
+														Focusable="True"
+														IsVisible="True">
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock Name="MapQueueTextBlock" Text="{Binding MapQueueText}"></TextBlock>
+													</Button>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+										<DataGridTextColumn Header="Map string" Binding="{Binding FullMapName}"/>
+										<DataGridTextColumn Header="Map string - no interactions" Binding="{Binding FullMapNameAlt}"/>
+										<DataGridTextColumn Header="Day / night" Binding="{Binding DayNight}"/>
+										<DataGridTextColumn Header="Queue position" Binding="{Binding MapQueuePosition}"/>
+										
+										<!-- New column: Map queue position -->
+										
+										<!-- How to select Shooting_Gallery instead of shooting_gallery -->
+										<!-- ID is supposed to be intern -->
+										<!-- Now to select the map via double click! -->
+									</DataGrid.Columns>
+								</DataGrid>
+
+
+								<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+								<Separator IsVisible="False"></Separator>
+
+
+
+
+
+
+
+							</StackPanel>
+						</TabItem>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<TabItem Header="Filter">
+							<StackPanel Orientation="Vertical" Spacing="8">
+								<TextBlock>What are your preferences to take over? Light blue preferences get saved</TextBlock>
+
+								<!-- Checkboxes left - no save file used, checkboxes right - save file used -->
+								<!-- Not necessary: Apply button! A click on the checkbox makes changes -->
+
+								<Grid ColumnDefinitions="800,600" RowDefinitions="250,*" Margin="4">
+
+									<!-- Row 0, Column 0, Simple -->
+
+									<StackPanel Grid.Row="0" Grid.Column="0">
+
+										<TextBlock Margin="1,2,6,0" HorizontalAlignment="Center">Simple filter</TextBlock>
+										<Separator Margin="0,4,20,20"></Separator>
+										
+										<CheckBox Name="CheckboxMapsAtNight" Command="{Binding FilterCommand}" IsChecked="{Binding MapsAtNightCheck}" IsEnabled="True">Maps at night</CheckBox>
+										<CheckBox Name="CheckboxMapsAtDay" Command="{Binding FilterCommand}" IsChecked="{Binding MapsAtDayCheck}" IsEnabled="True">Maps at day</CheckBox>
+										<CheckBox Name="CheckboxNoPickups" Command="{Binding FilterCommand}" IsChecked="{Binding NoPickupsCheck}" IsEnabled="True">
+											<TextBlock Foreground="#D4EBF2" Text="No hammer pickups"></TextBlock></CheckBox>
+										<CheckBox Name="CheckboxNoBots" Command="{Binding FilterCommand}" IsChecked="{Binding NoBotsCheck}" IsEnabled="True">
+											<TextBlock Foreground="#D4EBF2" Text="No bots"></TextBlock></CheckBox>
+
+										<!-- Clicking on these unchecks and disables other filters, and they are disabled if other filters are active -->
+										<CheckBox Name="CheckboxRandomMap" Command="{Binding FilterCommand}" IsChecked="{Binding RandomMapCheck}" IsEnabled="True">Random map</CheckBox>
+										<CheckBox Name="CheckboxRandomMapNight" Command="{Binding FilterCommand}" IsChecked="{Binding RandomMapNightCheck}" IsEnabled="True">Random map at night</CheckBox>
+
+									</StackPanel>
+									
+									<!-- Row 0, Column 1, Save file -->
+
+									<StackPanel Grid.Row="0" Grid.Column="1">
+
+										<TextBlock Margin="1,2,6,0" HorizontalAlignment="Center">Save file related filter</TextBlock>
+										<Separator Margin="0,4,20,20"></Separator>
+
+										<CheckBox Name="CheckboxCustomMaps" Command="{Binding FilterCommand}" IsChecked="{Binding CustomMapsCheck}" IsEnabled="False">Custom maps</CheckBox>
+										<CheckBox Name="CheckboxFavoriteMaps" Command="{Binding FilterCommand}" IsChecked="{Binding FavoriteMapsCheck}" IsEnabled="True">Favorite maps</CheckBox>
+										<CheckBox Name="CheckboxMapBlacklist" Command="{Binding FilterCommand}" IsChecked="{Binding MapBlacklistCheck}" IsEnabled="True">
+											<TextBlock Foreground="#D4EBF2" Text="Map blacklist"></TextBlock></CheckBox>
+										<CheckBox Name="CheckboxMapWhitelist" Command="{Binding FilterCommand}" IsChecked="{Binding MapWhitelistCheck}" IsEnabled="True">
+											<TextBlock Foreground="#D4EBF2" Text="Map whitelist"></TextBlock></CheckBox>
+										<CheckBox Name="CheckboxMapQueue" Command="{Binding FilterCommand}" IsChecked="{Binding MapQueueCheck}" IsEnabled="True">Map queue</CheckBox>
+										<CheckBox Name="CheckboxStartingMap" Command="{Binding FilterCommand}" IsChecked="{Binding StartingMapCheck}" IsEnabled="True">Starting map</CheckBox>
+										
+									</StackPanel>
+
+									<!-- Row 1, Column 0, Maps, 8 and 8 and 7 -->
+
+									<StackPanel Grid.Row="1" Grid.Column="0">
+
+										<TextBlock Margin="1,2,6,0" HorizontalAlignment="Center">Map name filter</TextBlock>
+										<Separator Margin="0,4,20,20"></Separator>
+
+										<Grid ColumnDefinitions="250,250,250" RowDefinitions="*">
+
+											<StackPanel Grid.Row="0" Grid.Column="0">
+
+												<CheckBox Name="CheckboxCommTower" Command="{Binding FilterCommand}" IsChecked="{Binding CommTowerCheck}" IsEnabled="True">CommTower</CheckBox>
+												<CheckBox Name="CheckboxDrillCavernBeta" Command="{Binding FilterCommand}" IsChecked="{Binding DrillCavernBetaCheck}" IsEnabled="True">Drill Cavern (Beta)</CheckBox>
+												<CheckBox Name="CheckboxDrillCavernNight" Command="{Binding FilterCommand}" IsChecked="{Binding DrillCavernNightCheck}" IsEnabled="True">Drill Cavern at Night</CheckBox>
+												<CheckBox Name="CheckboxDrillCavern" Command="{Binding FilterCommand}" IsChecked="{Binding DrillCavernCheck}" IsEnabled="True">Drill Cavern</CheckBox>
+												<CheckBox Name="CheckboxFourPoints" Command="{Binding FilterCommand}" IsChecked="{Binding FourPointsCheck}" IsEnabled="True">Four Points</CheckBox>
+												<CheckBox Name="CheckboxFissureNight" Command="{Binding FilterCommand}" IsChecked="{Binding FissureNightCheck}" IsEnabled="True">Fissure at Night</CheckBox>
+												<CheckBox Name="CheckboxFissure" Command="{Binding FilterCommand}" IsChecked="{Binding FissureCheck}" IsEnabled="True">Fissure</CheckBox>
+												<CheckBox Name="CheckboxTrailerParkRanked" Command="{Binding FilterCommand}" IsChecked="{Binding TrailerParkRankedCheck}" IsEnabled="True">Trailer Park (Ranked)</CheckBox>
+
+											</StackPanel>
+											<StackPanel Grid.Row="0" Grid.Column="1">
+
+												<CheckBox Name="CheckboxTrailerParkNight" Command="{Binding FilterCommand}" IsChecked="{Binding TrailerParkNightCheck}" IsEnabled="True">Trailer Park at Night</CheckBox>
+												<CheckBox Name="CheckboxTrailerPark" Command="{Binding FilterCommand}" IsChecked="{Binding TrailerParkCheck}" IsEnabled="True">Trailer Park</CheckBox>
+												<CheckBox Name="CheckboxGreenroom" Command="{Binding FilterCommand}" IsChecked="{Binding GreenroomCheck}" IsEnabled="True">Greenroom</CheckBox>
+												<CheckBox Name="CheckboxTheBrewery" Command="{Binding FilterCommand}" IsChecked="{Binding TheBreweryCheck}" IsEnabled="True">The Brewery</CheckBox>
+												<CheckBox Name="CheckboxLocomotionGym" Command="{Binding FilterCommand}" IsChecked="{Binding LocomotionGymCheck}" IsEnabled="True">Locomotion Gym</CheckBox>
+												<CheckBox Name="CheckboxProjectX" Command="{Binding FilterCommand}" IsChecked="{Binding ProjectXCheck}" IsEnabled="True">Project X</CheckBox>
+												<CheckBox Name="CheckboxShattered" Command="{Binding FilterCommand}" IsChecked="{Binding ShatteredCheck}" IsEnabled="True">Shattered</CheckBox>
+												<CheckBox Name="CheckboxShootingGallery" Command="{Binding FilterCommand}" IsChecked="{Binding ShootingGalleryCheck}" IsEnabled="True">Shooting Gallery</CheckBox>
+
+											</StackPanel>
+
+												<StackPanel Grid.Row="0" Grid.Column="2">
+												<CheckBox Name="CheckboxSpires" Command="{Binding FilterCommand}" IsChecked="{Binding SpiresCheck}" IsEnabled="True">Spires</CheckBox>
+												<CheckBox Name="CheckboxSploded" Command="{Binding FilterCommand}" IsChecked="{Binding SplodedCheck}" IsEnabled="True">Sploded</CheckBox>
+												<CheckBox Name="CheckboxTest" Command="{Binding FilterCommand}" IsChecked="{Binding TestCheck}" IsEnabled="True">Test</CheckBox>
+												<CheckBox Name="CheckboxTheFreezer" Command="{Binding FilterCommand}" IsChecked="{Binding TheFreezerCheck}" IsEnabled="True">The Freezer</CheckBox>
+												<CheckBox Name="CheckboxThePit" Command="{Binding FilterCommand}" IsChecked="{Binding ThePitCheck}" IsEnabled="True">The Pit</CheckBox>
+												<CheckBox Name="CheckboxTruckStop" Command="{Binding FilterCommand}" IsChecked="{Binding TruckStopCheck}" IsEnabled="True">Truck Stop</CheckBox>
+												<CheckBox Name="CheckboxTwoPort" Command="{Binding FilterCommand}" IsChecked="{Binding TwoPortCheck}" IsEnabled="True">Two Port</CheckBox>
+												<CheckBox Name="CheckboxDevMaps" Command="{Binding FilterCommand}" IsChecked="{Binding DevMapCheck}" IsEnabled="True">Dev maps</CheckBox>
+
+												</StackPanel>
+
+										</Grid>
+										
+									</StackPanel>
+
+									<!-- Row 1, Column 1, Game Modes, 8 and 8 -->
+
+									<StackPanel Grid.Row="1" Grid.Column="1">
+
+										<TextBlock Margin="1,2,6,0" HorizontalAlignment="Center">Game mode filter</TextBlock>
+										<Separator Margin="0,4,20,20"></Separator>
+
+										<Grid ColumnDefinitions="250,250" RowDefinitions="*,*">
+
+											<StackPanel Grid.Row="0" Grid.Column="0">
+									
+												<CheckBox Name="CheckboxAnnihilation" Command="{Binding FilterCommand}" IsChecked="{Binding AnnihilationCheck}" IsEnabled="True">Annihilation</CheckBox>
+												<CheckBox Name="CheckboxBlitz" Command="{Binding FilterCommand}" IsChecked="{Binding BlitzCheck}" IsEnabled="True">Blitz</CheckBox>
+												<CheckBox Name="CheckboxDeathsnatch" Command="{Binding FilterCommand}" IsChecked="{Binding DeathsnatchCheck}" IsEnabled="True">Deathsnatch</CheckBox>
+												<CheckBox Name="CheckboxDomination" Command="{Binding FilterCommand}" IsChecked="{Binding DominationCheck}" IsEnabled="True">Domination</CheckBox>
+												<CheckBox Name="CheckboxExtraction" Command="{Binding FilterCommand}" IsChecked="{Binding ExtractionCheck}" IsEnabled="True">Extraction</CheckBox>
+												<CheckBox Name="CheckboxHoldYourPole" Command="{Binding FilterCommand}" IsChecked="{Binding HoldYourPoleCheck}" IsEnabled="True">Hold Your Pole</CheckBox>
+												<CheckBox Name="CheckboxJackhammer" Command="{Binding FilterCommand}" IsChecked="{Binding JackhammerCheck}" IsEnabled="True">Jackhammer</CheckBox>
+												<CheckBox Name="CheckboxSolo" Command="{Binding FilterCommand}" IsChecked="{Binding SoloCheck}" IsEnabled="True">Solo</CheckBox>
+
+											</StackPanel>
+											<StackPanel Grid.Row="0" Grid.Column="1">
+
+												<CheckBox Name="CheckboxArtMaster" Command="{Binding FilterCommand}" IsChecked="{Binding ArtMasterCheck}" IsEnabled="True">Art Master</CheckBox>
+												<CheckBox Name="CheckboxAnnihilationOther" Command="{Binding FilterCommand}" IsChecked="{Binding AnnihilationOtherCheck}" IsEnabled="True">Annihilation (other)</CheckBox>
+												<CheckBox Name="CheckboxBlitzOther" Command="{Binding FilterCommand}" IsChecked="{Binding BlitzOtherCheck}" IsEnabled="True">Blitz (other)</CheckBox>
+												<CheckBox Name="CheckboxDeathsnatchOther" Command="{Binding FilterCommand}" IsChecked="{Binding DeathsnatchOtherCheck}" IsEnabled="True">Deathsnatch (other)</CheckBox>
+												<CheckBox Name="CheckboxExtractionOther" Command="{Binding FilterCommand}" IsChecked="{Binding ExtractionOtherCheck}" IsEnabled="True">Extraction (other)</CheckBox>
+												<CheckBox Name="CheckboxGeo" Command="{Binding FilterCommand}" IsChecked="{Binding GeoCheck}" IsEnabled="True">Geo</CheckBox>
+												<CheckBox Name="CheckboxNoGameMode" Command="{Binding FilterCommand}" IsChecked="{Binding NoGameModeCheck}" IsEnabled="True">No game mode</CheckBox>
+												<CheckBox Name="CheckboxUnknownGameMode" Command="{Binding FilterCommand}" IsChecked="{Binding UnknownGameModeCheck}" IsEnabled="True">Unknown game mode</CheckBox>
+
+											</StackPanel>
+
+										</Grid>
+
+										<!--
+										{"art_master", "None"},
+										{"botwave", "Hold Your Pole"},
+										{"botwaves", "Hold Your Pole"},
+										{"cpr", "Blitz"},
+										{"cpr_bots", "Special variant of Blitz"},
+										{"ctf", "Jackhammer"},
+										{"ctp", "Extraction (Alpha) - test stage"},
+										{"domination", "Domination"},
+										{"geo", "None"},
+										{"kc", "Deathsnatch"},
+										{"kc_bots", "Special variant of Deathsnatch"},
+										{"mashup", "Annihilation (Alpha) - test stage"},
+										{"mu", "Annihilation"},
+										{"none", "None"},
+										{"pj", "Unknown"},
+										{"rr", "Extraction"},
+										{"solo", "Solo"},
+										{"tc", "Unknown"},
+										{"tdm", "Deathsnatch (Alpha) - test stage"},
+										{"territorycontrol", "Unknown"}
+										-->
+										
+									</StackPanel>
+										
+
+								</Grid>
+
+								<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+								<Separator Margin="0,20,0,10"></Separator>
+
+								<Button Name="ResetFilterButton" Command="{Binding ResetFilterCommand}" HorizontalAlignment="Stretch" IsEnabled="{Binding ResetActive}" Margin="0,0,0,0" FontSize="28" FontWeight="Bold">Reset</Button>
+
+								<!--  -->
+								<!-- Map queue gets its own tab in maps -->
+								<!-- Map queue fillEmptyMapQueueWithFavoriteMaps loopMapQueue createMapQueue deleteMapQueue -->
+								<!--  -->
+
+							</StackPanel>
+						</TabItem>
+
+
+
+
+
+
+
+					</TabControl>
+				</DockPanel>
+			</StackPanel>
+		</DockPanel>
+
+	</ScrollViewer>
+
+
+</UserControl>
+
+<!--
+<DockPanel
+	Margin="4">
+	<TabControl
+		Margin="0 60"
+		TabStripPlacement="Top">
+		<TabItem Header="All Maps">
+			<StackPanel Orientation="Vertical" Spacing="8">
+				<TextBlock>Select from all maps</TextBlock>
+			</StackPanel>
+		</TabItem>
+		<TabItem Header="Versus Bots">
+			<StackPanel Orientation="Vertical" Spacing="8">
+				<TextBlock>Select from maps that support fighting versus Kroads</TextBlock>
+			</StackPanel>
+		</TabItem>
+	</TabControl>
+</DockPanel>
+
+<Interaction.Behaviors>
+	<EventTriggerBehavior EventName="PatchMap">
+		<InvokeCommandAction Command="{Binding PatchMapCommand}"></InvokeCommandAction>
+	</EventTriggerBehavior>
+</Interaction.Behaviors>
+
+<ItemsRepeater ItemsSource="{Binding MyItems}">
+	<ItemsRepeater.ItemTemplate>
+		<DataTemplate>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding DisplayName}"/>
+				<Grid>
+					<Button Command="{Binding $parent[ItemsRepeater].((vm:MyUserControlViewModel)DataContext).DoItCommand}"
+							CommandParameter="{Binding ItemId}"/>
+				</Grid>
+			</StackPanel>
+		</DataTemplate>
+	</ItemsRepeater.ItemTemplate>
+</ItemsRepeater>
+
+<Button Margin="0,10,0,10" Command="{Binding PatchMapCommand}"
+	CommandParameter="Map">Lock in</Button>
+
+<Separator IsVisible="True"></Separator>
+
+
+								<Grid ColumnDefinitions="700,700,700" RowDefinitions="450,450,450" Margin="4">
+									<ListBox ItemsSource="{Binding Maps}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.BringIntoViewOnFocusChange="True" 
+											 Width="1596" Height="850" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top">
+										<ListBox.ItemTemplate>
+											<DataTemplate>
+												<StackPanel Grid.Row="0" Grid.Column="0">
+													<Image Name="MapPicture" Margin="0,0,20,0" HorizontalAlignment="Left" Width="512" Height="256"
+														   Source="{Binding PicturePath, Converter={StaticResource variableImage}}">
+														<Image.GestureRecognizers>
+															<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																					  CanVerticallyScroll="True"/>
+														</Image.GestureRecognizers>
+													</Image>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="24" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Map name: "/>
+														<Run Text="{Binding MapName}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="12" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Map string: "/>
+														<Run Text="{Binding FullMapName}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="24" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Game mode: "/>
+														<Run Text="{Binding GameModeTranslated}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="12" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Game mode description: "/>
+														<Run Text="{Binding GameModeDefinition}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="12" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Map description: "/>
+														<Run Text="{Binding MapDescription}"/>
+													</TextBlock>
+
+												</StackPanel>
+
+											</DataTemplate>
+
+										</ListBox.ItemTemplate>
+									</ListBox>
+								</Grid>
+								
+								
+								
+								
+								
+																<Grid ColumnDefinitions="700,700,700" RowDefinitions="450,450,450" Margin="4">
+									<ListBox ItemsSource="{Binding BotMaps}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.BringIntoViewOnFocusChange="True" Width="1596" Height="850" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top">
+										<ListBox.ItemTemplate>
+											<DataTemplate>
+												<StackPanel Grid.Row="0" Grid.Column="0">
+													<Image Margin="0,0,20,0" HorizontalAlignment="Left" Width="512" Height="256"
+														   Source="{Binding PicturePath, Converter={StaticResource variableImage}}"/>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="24" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Map name: "/>
+														<Run Text="{Binding MapName}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="12" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Map string: "/>
+														<Run Text="{Binding FullMapName}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="24" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Game mode: "/>
+														<Run Text="{Binding GameModeTranslated}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="12" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Game mode description: "/>
+														<Run Text="{Binding GameModeDefinition}"/>
+													</TextBlock>
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,8,20,4" FontSize="12" FontFamily="{StaticResource GeologicaFont}">
+														<Run Text="Map description: "/>
+														<Run Text="{Binding MapDescription}"/>
+													</TextBlock>
+
+												</StackPanel>
+
+											</DataTemplate>
+
+										</ListBox.ItemTemplate>
+									</ListBox>
+								</Grid>
+								
+-->
+<!-- In use: "Map string: " + "Game mode description: " + "Game mode: " + "Map name: " + "Map description: " -->
+<!-- Not in use: / -->

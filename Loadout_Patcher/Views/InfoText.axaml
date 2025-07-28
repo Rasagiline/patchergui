@@ -1,0 +1,35 @@
+<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Loadout_Patcher.Views.InfoText">
+	
+    <Viewbox MaxWidth="300" MaxHeight="300">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Background="Gray" TextAlignment="Center" FontSize="20" Width="300" Height="100"
+                       Text="{Binding Global.InfoText}" TextWrapping="Wrap" />
+            <Label>Bombs: </Label>
+            <StackPanel Orientation="Horizontal" Width="150" Height="35">
+                <NumericUpDown ShowButtonSpinner="False" Value="{Binding Global.AmountBombs}"
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <Label>/</Label>
+                <NumericUpDown ShowButtonSpinner="False" Value="{Binding Global.FlagsSet}"
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" />
+            </StackPanel>
+        </StackPanel>
+    </Viewbox>
+</UserControl>

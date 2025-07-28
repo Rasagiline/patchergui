@@ -1,0 +1,591 @@
+﻿<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+			 xmlns:ext="clr-namespace:Loadout_Patcher;assembly=Loadout_Patcher"
+             mc:Ignorable="d"
+			 d:DesignHeight="1000"
+             d:DesignWidth="1800"
+             x:Class="Loadout_Patcher.Views.MultiplayerPageView"
+             x:DataType="viewModels:MultiplayerPageViewModel">
+	<UserControl.Resources>
+		<Animation x:Key="ResourceAnimation"
+                   x:SetterTargetType="Rectangle"
+                   Duration="0:0:10"
+				   IterationCount="1"
+				   Delay="0:0:1"
+				   Easing="QuarticEaseInOut">
+			<KeyFrame Cue="0%">
+				<Setter Property="Opacity" Value="0.0"/>
+				<Setter Property="RotateTransform.Angle" Value="0.0"/>
+			</KeyFrame>
+			<KeyFrame Cue="1%">
+				<Setter Property="Opacity" Value="1.0"/>
+				<Setter Property="RotateTransform.Angle" Value="0.0"/>
+			</KeyFrame>
+			<KeyFrame Cue="2%">
+				<Setter Property="RotateTransform.Angle" Value="7.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="3%">
+				<Setter Property="RotateTransform.Angle" Value="18.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="4%">
+				<Setter Property="RotateTransform.Angle" Value="26.0"/>
+				<Setter Property="Opacity" Value="0.75"/>
+			</KeyFrame>
+			<KeyFrame Cue="5%">
+				<Setter Property="RotateTransform.Angle" Value="35.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="6%">
+				<Setter Property="RotateTransform.Angle" Value="45.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="7%">
+				<Setter Property="RotateTransform.Angle" Value="56.0"/>
+				<Setter Property="Opacity" Value="1.0"/>
+			</KeyFrame>
+			<KeyFrame Cue="8%">
+				<Setter Property="RotateTransform.Angle" Value="68.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="9%">
+				<Setter Property="RotateTransform.Angle" Value="81.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="10%">
+				<Setter Property="RotateTransform.Angle" Value="95.0"/>
+				<Setter Property="Opacity" Value="0.75"/>
+			</KeyFrame>
+			<KeyFrame Cue="15%">
+				<Setter Property="RotateTransform.Angle" Value="190.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="20%">
+				<Setter Property="RotateTransform.Angle" Value="290.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="25%">
+				<Setter Property="RotateTransform.Angle" Value="400.0"/>
+				<Setter Property="Opacity" Value="1.0"/>
+			</KeyFrame>
+			<KeyFrame Cue="30%">
+				<Setter Property="RotateTransform.Angle" Value="520.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="35%">
+				<Setter Property="RotateTransform.Angle" Value="700.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="40%">
+				<Setter Property="RotateTransform.Angle" Value="1000.0"/>
+				<Setter Property="Opacity" Value="0.75"/>
+			</KeyFrame>
+			<KeyFrame Cue="45%">
+				<Setter Property="RotateTransform.Angle" Value="1500.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="50%">
+				<Setter Property="RotateTransform.Angle" Value="2000.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="55%">
+				<Setter Property="RotateTransform.Angle" Value="2500.0"/>
+				<Setter Property="Opacity" Value="1.0"/>
+			</KeyFrame>
+			<KeyFrame Cue="60%">
+				<Setter Property="RotateTransform.Angle" Value="3000.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="65%">
+				<Setter Property="RotateTransform.Angle" Value="3500.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="70%">
+				<Setter Property="RotateTransform.Angle" Value="3750.0"/>
+				<Setter Property="Opacity" Value="0.75"/>
+			</KeyFrame>
+			<KeyFrame Cue="75%">
+				<Setter Property="RotateTransform.Angle" Value="3700.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="80%">
+				<Setter Property="RotateTransform.Angle" Value="3400.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="85%">
+				<Setter Property="RotateTransform.Angle" Value="3000.0"/>
+				<Setter Property="Opacity" Value="1.0"/>
+			</KeyFrame>
+			<KeyFrame Cue="90%">
+				<Setter Property="RotateTransform.Angle" Value="2000.0"/>
+				<Setter Property="Opacity" Value="0.8"/>
+			</KeyFrame>
+			<KeyFrame Cue="95%">
+				<Setter Property="RotateTransform.Angle" Value="1000.0"/>
+				<Setter Property="Opacity" Value="0.9"/>
+			</KeyFrame>
+			<KeyFrame Cue="100%">
+				<Setter Property="RotateTransform.Angle" Value="0.0"/>
+				<Setter Property="Opacity" Value="1.0"/>
+			</KeyFrame>
+		</Animation>
+		<ext:FindResourceFromStringConverter x:Key="FindResourceFromString"/>
+		<ext:BitmapAssetValueConverter x:Key="VariableImage"/>
+	</UserControl.Resources>
+	<UserControl.Styles>
+		<Style Selector="Rectangle">
+			<Setter Property="Fill" Value="#5FB2F2"/>
+			<!-- <Setter Property="Opacity" Value="0.0"/> More styles will be removed if this gets added -->
+		</Style>
+	</UserControl.Styles>
+	<ScrollViewer>
+		<DockPanel Margin="20">
+			<Grid RowDefinitions="Auto, *" Margin="20">
+				<StackPanel>
+					<TextBlock Grid.Row="0" Margin="0 20" FontSize="20" FontWeight="Bold">
+						Multiplayer
+					</TextBlock>
+					<StackPanel Margin="20,0,0,10">
+						<Grid>
+							<TextBlock Grid.Row="0" Margin="0 0 0 0" FontSize="16" FontWeight="Bold">
+								You can join multiplayer matches in Loadout 
+							</TextBlock>
+							<TextBlock Grid.Row="0" Margin="0 20 0 0" FontSize="16" FontWeight="Bold">
+								Reloaded normally through matchmaking. 
+							</TextBlock>
+							<TextBlock Grid.Row="0" Margin="0 60 0 0" FontSize="16" FontWeight="Bold">
+								But you cannot join games in progress yet. 
+							</TextBlock>
+							<TextBlock Grid.Row="0" Margin="0 80 0 0" FontSize="16" FontWeight="Bold">
+								Please stay tuned.
+							</TextBlock>
+							<ListBox Width="160" HorizontalAlignment="Left" Name="ServerRefresh" ItemsSource="{Binding CountdownTimer}" Margin="0,120,0,0">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Button Name="RefreshServerListButton" Loaded="Button_Loaded" Click="Button_Click"
+													Command="{Binding #ServerRefresh.DataContext.RefreshServerListCommand}" 
+													IsEnabled="{Binding #ServerRefresh.DataContext.RefreshServerListEnabled}" Margin="-20,0,0,0" FontSize="26">
+												<!-- We need such long commands to distinguish in the source code -->
+												<TextBlock Text="{Binding RefreshServerListText}" Margin=""></TextBlock>
+												<Button.Styles>
+													<Style Selector="Button:pressed /template/ ContentPresenter">
+														<Setter Property="Foreground" Value="#5FB2F2"></Setter>
+													</Style>
+												</Button.Styles>
+											</Button>
+										</StackPanel>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<Rectangle x:Name="Rect" HorizontalAlignment="Left" Margin="188,116,0,0" Width="25" Height="25"/>
+							<ListBox Width="140" HorizontalAlignment="Left" Name="TimeOfTheDay" ItemsSource="{Binding CountdownTimer}" Margin="218,127,0,0">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<TextBlock Text="{Binding CurrentTimeOfTheDay}" VerticalAlignment="Center" Margin="15,0,0,0" 
+													   FontSize="26" FontFamily="{StaticResource MetalManiaFont}" Foreground="#5FB2F2"/>
+										</StackPanel>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<TextBlock Grid.Row="0" Margin="400 0 0 0" FontSize="16" FontWeight="Bold">
+								This is only a template
+							</TextBlock>
+							<TextBlock Grid.Row="0" Margin="400 20 0 0" FontSize="16" FontWeight="Bold">
+								for future development.
+							</TextBlock>
+							<Image Name="EyePicture" Width="178" Height="115" Margin="1215,0,0,0" IsVisible="{Binding RefreshButtonPressed}" Source="/Assets/eye.png"></Image>
+						</Grid>
+					</StackPanel>
+
+			<DockPanel Margin="10 0 0 0">
+				<TabControl
+					Margin="0 0"
+					TabStripPlacement="Top">
+					<TabItem Header="All Servers">
+						<StackPanel Orientation="Vertical" Spacing="8">
+							<TextBlock Name="NumberOfGameServers1" Text="{Binding NumberOfGameServersText}"></TextBlock>
+
+							<DataGrid Margin="0,0,20,0"
+								Name="ServerListTable"
+								ItemsSource="{Binding GameServers}"
+								IsReadOnly="True"
+								CanUserReorderColumns="True"
+								CanUserResizeColumns="True"
+								CanUserSortColumns="True"
+								GridLinesVisibility="All"
+								HorizontalScrollBarVisibility="Visible"
+								BorderThickness="1"
+								BorderBrush="Gray"
+								Height="550"
+								ScrollViewer.IsDeferredScrollingEnabled="True"
+								ScrollViewer.AllowAutoHide="False"
+								IsTabStop="True"
+								Cursor="UpArrow"
+								ClipboardCopyMode="ExcludeHeader">
+								<DataGrid.Columns>
+									<DataGridTemplateColumn Width="150" Header="              Action">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<!-- Or #111838 -->
+												<Button
+													Name="JoinSessionButton"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													VerticalAlignment="Stretch"
+													Background="#111828"
+													Command="{Binding #ServerListTable.DataContext.JoinSessionCommand}"
+													CommandParameter="{Binding Id}"
+													Content="View"
+													Foreground="White"
+													Focusable="True"
+													IsVisible="True"
+													IsEnabled="{Binding JoinSessionEnabled}">
+													<!-- Only the focused line should make one button visible! -->
+													<TextBlock Name="JoinSessionTextBlock" Text="{Binding JoinSessionText}"></TextBlock>
+													<Button.Styles>
+														<Style Selector="Button:disabled /template/ ContentPresenter">
+															<Setter Property="Background" Value="#0D1426"></Setter>
+														</Style>
+													</Button.Styles>
+													<Button.Styles>
+														<Style Selector="Button:pointerover /template/ ContentPresenter">
+															<Setter Property="Background" Value="#640B0B"></Setter>
+														</Style>
+													</Button.Styles>
+												</Button>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+									<DataGridTextColumn Header="Server name" Binding="{Binding ServerName}"/>
+									<DataGridTemplateColumn Header="Ping">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Ping}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding PingColor}"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Players"> <!-- 4/8 -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Players}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding PlayersColor}" FontWeight="DemiBold"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Versus"> <!-- PvP or PvE -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Versus}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+									<DataGridTextColumn Header="Game mode" Binding="{Binding GameMode}"/>
+									<DataGridTemplateColumn Width="200" Header="                     Picture"> <!-- Minimum 100 height -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<Image Name="MapPicture" Margin="0,0,0,0" HorizontalAlignment="Center" Width="200" Height="100"
+													   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+													<Image.GestureRecognizers>
+														<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																				  CanVerticallyScroll="True"/>
+													</Image.GestureRecognizers>
+												</Image>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Match time running">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding MatchTimeRunning}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Availability"> <!-- online or offline -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Availability}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding AvailabilityColor}"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Interactions"> <!-- yes or no, checks for FullMapNameAlt -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Interactions}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Mark as favorite server">  <!-- list offline servers too -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<!-- Or #FFD700 -->
+												<Button
+													Name="FavoriteServerButton"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													VerticalAlignment="Stretch"
+													Background="#574700"
+													BackgroundSizing="CenterBorder"
+													Command="{Binding #ServerListTable.DataContext.AddOrRemoveFavoriteServersCommand}"
+													CommandParameter="{Binding Id}"
+													Content="View"
+													Foreground="Black"
+													Focusable="True"
+													IsVisible="True">
+													<StackPanel>
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock HorizontalAlignment="Center" Name="FavoriteServerTextBlock" Text="{Binding FavoriteServerText}" Foreground="#FFFFFF"></TextBlock>
+														<PathIcon HorizontalAlignment="Center" Foreground="#FFD100" Data="{Binding FavoriteServerIcon, Converter={StaticResource FindResourceFromString}}"></PathIcon> <!-- Binding FavoriteServerIcon -->
+													</StackPanel>
+												</Button>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Header="Server time running" Binding="{Binding ServerTimeRunning}"/>
+									<DataGridTextColumn Header="Last time up" Binding="{Binding LastTimeUp}"/> <!-- last time the server was up -->
+									<DataGridTemplateColumn Header="Player Status"> <!-- allowed or banned -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding PlayerStatus}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding PlayerStatusColor}"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Mark as favorite map">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<!-- Or #FFD700 -->
+												<Button
+													Name="FavoriteMapButton"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													VerticalAlignment="Stretch"
+													Background="#574700"
+													BackgroundSizing="CenterBorder"
+													Command="{Binding #ServerListTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+													CommandParameter="{Binding Id}"
+													Content="View"
+													Foreground="Black"
+													Focusable="True"
+													IsVisible="True">
+													<StackPanel> <!-- StackPanel might be redundant -->
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock HorizontalAlignment="Center" Name="FavoriteMapTextBlock" Text="{Binding FavoriteMapText}" Foreground="#FFFFFF"></TextBlock>
+														<PathIcon HorizontalAlignment="Center" Foreground="#FFD100" Data="{Binding FavoriteMapIcon, Converter={StaticResource FindResourceFromString}}"></PathIcon> <!-- Binding FavoriteServerIcon -->
+													</StackPanel>
+												</Button>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+								</DataGrid.Columns>
+							</DataGrid>
+							<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+							<Separator IsVisible="True"></Separator>
+						</StackPanel>
+					</TabItem>
+					<TabItem Header="Favorite Servers">
+						<StackPanel Orientation="Vertical" Spacing="8">
+							<TextBlock Name="NumberOfFavoriteGameServers1" Text="{Binding NumberOfFavoriteGameServersText}"></TextBlock>
+
+							<DataGrid Margin="0,0,20,0"
+								Name="FavoriteServerListTable"
+								ItemsSource="{Binding FavoriteGameServers}"
+								IsReadOnly="True"
+								CanUserReorderColumns="True"
+								CanUserResizeColumns="True"
+								CanUserSortColumns="True"
+								GridLinesVisibility="All"
+								HorizontalScrollBarVisibility="Visible"
+								BorderThickness="1"
+								BorderBrush="Gray"
+								Height="550"
+								ScrollViewer.IsDeferredScrollingEnabled="True"
+								ScrollViewer.AllowAutoHide="False"
+								IsTabStop="True"
+								Cursor="UpArrow"
+								ClipboardCopyMode="ExcludeHeader">
+								<DataGrid.Columns>
+									<DataGridTemplateColumn Width="150" Header="              Action">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<!-- Or #111838 -->
+												<Button
+													Name="JoinSessionButton2"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													VerticalAlignment="Stretch"
+													Background="#111828"
+													Command="{Binding #ServerListTable.DataContext.JoinSessionCommand}"
+													CommandParameter="{Binding Id}"
+													Content="View"
+													Foreground="White"
+													Focusable="True"
+													IsVisible="True"
+													IsEnabled="{Binding JoinSessionEnabled}">
+													<!-- Only the focused line should make one button visible! -->
+													<TextBlock Name="JoinSessionTextBlock2" Text="{Binding JoinSessionText}"></TextBlock>
+												</Button>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+									<DataGridTextColumn Header="Server name" Binding="{Binding ServerName}"/>
+									<DataGridTemplateColumn Header="Ping">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Ping}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding PingColor}"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Players">
+										<!-- 4/8 -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Players}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding PlayersColor}" FontWeight="DemiBold"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Versus">
+										<!-- PvP or PvE -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Versus}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Header="Map name" Binding="{Binding MapName}"/>
+									<DataGridTextColumn Header="Game mode" Binding="{Binding GameMode}"/>
+									<DataGridTemplateColumn Width="200" Header="                     Picture">
+										<!-- Minimum 100 height -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<Image Name="MapPicture2" Margin="0,0,0,0" HorizontalAlignment="Center" Width="200" Height="100"
+													   Source="{Binding PicturePath, Converter={StaticResource VariableImage}}">
+													<Image.GestureRecognizers>
+														<ScrollGestureRecognizer CanHorizontallyScroll="True"
+																				  CanVerticallyScroll="True"/>
+													</Image.GestureRecognizers>
+												</Image>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Match time running">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding MatchTimeRunning}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Availability">
+										<!-- online or offline -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Availability}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding AvailabilityColor}"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Interactions">
+										<!-- yes or no, checks for FullMapNameAlt -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Interactions}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Mark as favorite server">
+										<!-- list offline servers too -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<!-- Or #FFD700 -->
+												<Button
+													Name="FavoriteServerButton2"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													VerticalAlignment="Stretch"
+													Background="#574700"
+													BackgroundSizing="CenterBorder"
+													Command="{Binding #ServerListTable.DataContext.AddOrRemoveFavoriteServersCommand}"
+													CommandParameter="{Binding Id}"
+													Content="View"
+													Foreground="Black"
+													Focusable="True"
+													IsVisible="True">
+													<StackPanel>
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock HorizontalAlignment="Center" Name="FavoriteServerTextBlock2" Text="{Binding FavoriteServerText}" Foreground="#FFFFFF"></TextBlock>
+														<PathIcon HorizontalAlignment="Center" Foreground="#FFD100" Data="{Binding FavoriteServerIcon, Converter={StaticResource FindResourceFromString}}"></PathIcon>
+														<!-- Binding FavoriteServerIcon -->
+													</StackPanel>
+												</Button>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Header="Server time running" Binding="{Binding ServerTimeRunning}"/>
+									<DataGridTextColumn Header="Last time up" Binding="{Binding LastTimeUp}"/>
+									<!-- last time the server was up -->
+									<DataGridTemplateColumn Header="Player Status">
+										<!-- allowed or banned -->
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding PlayerStatus}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding PlayerStatusColor}"></TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Header="Mark as favorite map">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<!-- Or #FFD700 -->
+												<Button
+													Name="FavoriteMapButton2"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													VerticalAlignment="Stretch"
+													Background="#574700"
+													BackgroundSizing="CenterBorder"
+													Command="{Binding #ServerListTable.DataContext.AddOrRemoveFavoriteMapsCommand}"
+													CommandParameter="{Binding Id}"
+													Content="View"
+													Foreground="Black"
+													Focusable="True"
+													IsVisible="True">
+													<StackPanel>
+														<!-- StackPanel might be redundant -->
+														<!-- Only the focused line should make one button visible! -->
+														<TextBlock HorizontalAlignment="Center" Name="FavoriteMapTextBlock2" Text="{Binding FavoriteMapText}" Foreground="#FFFFFF"></TextBlock>
+														<PathIcon HorizontalAlignment="Center" Foreground="#FFD100" Data="{Binding FavoriteMapIcon, Converter={StaticResource FindResourceFromString}}"></PathIcon>
+														<!-- Binding FavoriteServerIcon -->
+													</StackPanel>
+												</Button>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+								</DataGrid.Columns>
+							</DataGrid>
+							<!-- A separator is necessary to leave enough space for the bottom of the grid -->
+							<Separator IsVisible="True"></Separator>
+						</StackPanel>
+					</TabItem>
+				</TabControl>
+			</DockPanel>
+			</StackPanel>
+		</Grid>
+		</DockPanel>
+	</ScrollViewer>
+</UserControl>

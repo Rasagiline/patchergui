@@ -1,0 +1,66 @@
+﻿<!--
+  Loadout_Patcher
+
+  Copyright (c) 2025 Rasagiline
+  GitHub: https://github.com/Rasagiline
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Loadout_Patcher.ViewModels"
+             mc:Ignorable="d"
+			 d:DesignHeight="1000"
+             d:DesignWidth="1800"
+             x:Class="Loadout_Patcher.Views.PatcherPageView"
+             x:DataType="viewModels:PatcherPageViewModel">
+	<ScrollViewer>
+	<Grid RowDefinitions="Auto, *" Margin="20">
+        <TextBlock Grid.Row="0" Margin="0 20" FontSize="20" FontWeight="Bold">
+          Simple Patching
+        </TextBlock>
+		<TextBlock Grid.Row="0" Margin="0 100" FontSize="20" FontWeight="Bold" IsVisible="{Binding PatchingNotification}">
+			Don't run Loadout Beta
+		</TextBlock>
+		<TextBlock Grid.Row="0" Margin="0 125" FontSize="20" FontWeight="Bold" IsVisible="{Binding PatchingNotification}">
+			It's patching, waiting for Loadout ...
+		</TextBlock>
+		<!-- This text may appear more often than necessary. Eventual bug fix needed. -->
+		<TextBlock Grid.Row="0" Margin="0 250" FontSize="20" FontWeight="Bold" IsVisible="{Binding WhileLoopNotification}">
+			It's still trying to patch!
+		</TextBlock>
+		<TextBlock Grid.Row="0" Margin="0 275" FontSize="20" FontWeight="Bold" IsVisible="{Binding WhileLoopNotification}">
+			Open Loadout!
+		</TextBlock>
+		<TextBlock Grid.Row="0" Margin="0 300" FontSize="20" FontWeight="Bold" IsVisible="{Binding WhileLoopNotification}">
+			If patching was successful, 
+		</TextBlock>
+		<TextBlock Grid.Row="0" Margin="0 325" FontSize="20" FontWeight="Bold" IsVisible="{Binding WhileLoopNotification}">
+			you will enter the game
+		</TextBlock>
+
+		<StackPanel>
+			<Button Name="PatchButton" Width="500" MaxWidth="500" Height="250" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="4" Loaded="Button_Loaded"
+					FontSize="54" Margin="10, 100, 10, 10" HorizontalAlignment="Center" Command="{Binding PatchingCommand}" IsEnabled="{Binding PatchingEnabled}">Patch</Button>
+			<ProgressBar Name="LoadingBar" Background="SkyBlue" Value="{Binding ProgressValue}"
+			 MaxWidth="500"
+			 Margin="0, 100, 0, 50"/>
+
+			<TextBlock Text="Make sure to run Loadout" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,40,20,20" FontSize="30" FontFamily="{StaticResource GeologicaFont}"/>
+			<TextBlock Text="Game patched!" IsVisible="{Binding PatchedText}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,20,20,20" FontSize="36" FontFamily="{StaticResource GeologicaFont}" Foreground="SkyBlue"/>
+			<TextBlock Text="Made by Reloaded Team" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,120,20,20" FontSize="36" FontFamily="{StaticResource GeologicaFont}"/>
+		</StackPanel>
+		
+		
+		
+		
+
+    </Grid>
+    </ScrollViewer>
+</UserControl>
