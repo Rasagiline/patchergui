@@ -43,14 +43,14 @@ This software will try to generate a patcherSave.xml and patcherSaveBackup.xml t
 
 [![License: EPL 2.0](https://img.shields.io/badge/License-EPL%202.0-red.svg)](https://www.eclipse.org/legal/epl-2.0/)
 
-© 2025 Rasagiline ([GitHub](https://github.com/Rasagiline)) — Loadout_Patcher
+Â© 2025 Rasagiline ([GitHub](https://github.com/Rasagiline)) â€” Loadout_Patcher
 
 This software was made by Rasagiline (https://github.com/Rasagiline) using several third-party software components listed in [NOTICE.md](./NOTICE.md).
 
 ## Contributing
 
 Contributions are welcome! Please open issues or submit pull requests for improvements.
-By contributing, you agree to comply with the project’s licenses, including for any derivative works.
+By contributing, you agree to comply with the projectâ€™s licenses, including for any derivative works.
 
 ## Acknowledgments
 
@@ -67,7 +67,7 @@ Although this software was inspired by an original C++ codebase, the C# version 
 [cc-by]: https://creativecommons.org/licenses/by/4.0/
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
 
-All game screenshots in this repository are © 2025 Rasagiline ([GitHub](https://github.com/Rasagiline)) — Loadout_Patcher
+All game screenshots in this repository are Â© 2025 Rasagiline ([GitHub](https://github.com/Rasagiline)) â€” Loadout_Patcher
 
 They are licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
@@ -75,7 +75,7 @@ All in-game screenshots were taken by the author and contain copyrighted content
 These screenshots are licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  
 
 **Use of these screenshots is allowed only with proper attribution as required by this license.**  
-Attribution must include credit to "YourName," a link to this repository or project page, and a link to the license.
+Attribution must include credit to "Rasagiline," a link to this repository or project page, and a link to the license.
 
 Example of acceptable credit:  
 > Screenshot by Rasagiline, [Loadout_Patcher](https://github.com/Rasagiline/patchergui), licensed under CC BY 4.0.  
