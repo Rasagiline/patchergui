@@ -78,7 +78,7 @@ These screenshots are licensed under the [Creative Commons Attribution 4.0 Inter
 Attribution must include credit to "Rasagiline," a link to this repository or project page, and a link to the license.
 
 Example of acceptable credit:  
-> Screenshot by Rasagiline, [Loadout_Patcher](https://github.com/Rasagiline/patchergui), licensed under CC BY 4.0.  
+> Screenshot by Rasagiline, [Loadout_Patcher](https://github.com/Rasagiline/patchergui), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).  
 
 Failure to provide proper attribution as specified above is a violation of this license and your right to use these images is revoked.
 
